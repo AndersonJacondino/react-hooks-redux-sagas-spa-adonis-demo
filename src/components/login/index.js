@@ -49,7 +49,7 @@ export default function Form (props) {
     });
 
     function login() {
-        loginService.post('/authenticate', values)
+        loginService.logar('/authenticate', values)
         .then(() => {
             props.history.push('/home');
         })

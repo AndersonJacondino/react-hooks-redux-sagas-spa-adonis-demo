@@ -7,14 +7,14 @@ const base = axios.create({
   }
 });
 
-base.interceptors.response.use((response) => {
-  return response;
-}, (error) => {
-  // if (error.response.status === 401) {
-  //   // store.commit('logout');
-  // }
-  return Promise.reject(error);
-});
+// base.interceptors.response.use((response) => {
+//   return response;
+// }, (error) => {
+//   // if (error.response.status === 401) {
+//   //   // store.commit('logout');
+//   // }
+//   return Promise.reject(error);
+// });
 
 // set token in header authorization
 base.interceptors.request.use((config) => {

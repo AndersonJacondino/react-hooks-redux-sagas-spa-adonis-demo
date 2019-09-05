@@ -1,10 +1,18 @@
 import base from '../config/base';
 
 class Tweet {
-    static get(apiEndpoint) {
+    static getTweet(apiEndpoint) {
         return base.get(apiEndpoint)
             .then((response) => {
-                console.log(response.data)
+                return response;
+            }).catch((err) => {
+                throw err;
+            });
+    }
+
+    static setTweet(apiEndpoint, payload) {
+        return base.post(apiEndpoint, JSON.stringify(payload))
+            .then((response) => {
                 return response;
             }).catch((err) => {
                 throw err;
