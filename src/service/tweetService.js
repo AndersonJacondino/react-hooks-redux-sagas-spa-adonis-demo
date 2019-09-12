@@ -18,6 +18,15 @@ class Tweet {
                 throw err;
             });
     }
+    
+    static delTweet(apiEndpoint, id) {
+        return base.delete(`${apiEndpoint}/${id}`)
+        .then((response) => {
+            return response;
+        }).catch((err) => {
+            throw err;
+        });
+    }
 }
 
 export default Tweet;

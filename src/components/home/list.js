@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import renderHTML from 'react-render-html';
+import tweetService from '../../service/tweetService';
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -20,8 +21,14 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+
 export default function List(props) {
     const classes = useStyles();
+
+    function deletar (id) {
+        console.log(props)
+        //tweetService.delTweet('/tweets', id)
+    }
 
     return (
         <div>
@@ -53,7 +60,7 @@ export default function List(props) {
                                 <Button size="small" color="primary">
                                     Learn More
                             </Button>
-                                <Button size="small" color="default">
+                                <Button onClick={()=> deletar(item.id)} size="small" color="default">
                                     Excluir
                             </Button>
                             </CardActions>

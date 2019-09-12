@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react';
+import { loadlist } from '../../redux/core/actions/listActions';
+import { connect } from 'react-redux';
+import { bindActionCreators } from "redux";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import Container from '@material-ui/core/Container';
@@ -6,7 +9,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import List from './list';
-import tweetService from '../../service/tweetService';
 
 const useStyles = makeStyles(theme => ({
     button: {
@@ -14,43 +16,52 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function Home() {
+const Home = (props) => {
     const [values, setEdit] = useState({});
-    const [contents, setContent] = useState([]);
     const classes = useStyles();
-
-    useEffect(() => {
-        loadContent()
-    }, []);
-
-    function loadContent() {
-        tweetService.getTweet('/tweets')
-        .then((res) => {
-            setContent(res.data)
-        })
-    }
 
     function handleChange(value) {
         setEdit(value);
     }
 
     function publicar() {
-        const data = { content: values };
+        // const data = { content: values };
 
-        tweetService.setTweet('/tweets', data)
-            .then(() => loadContent())
+        // tweetService.setTweet('/tweets', data)
+        //     .then(() => loadContent())
     }
 
+    useEffect(() => {
+        props.loadlist();
+        console.log(props)
+    }, []);
+
     return (
-        <Container component="main">
-            <CssBaseline />
-            <h1>teste</h1>
-            <ReactQuill value={values}
-                onChange={handleChange} />
-            <Button className={classes.button} onClick={() => { publicar() }} variant="contained" color="primary">
-                Send
+        <div>
+            {console.log(props.list)}
+            <Container component="main">
+                <CssBaseline />
+                <h1>teste</h1>
+                <ReactQuill value={values}
+                    onChange={handleChange} />
+                <Button className={classes.button} onClick={() => { publicar() }} variant="contained" color="primary">
+                    Send
             </Button>
-            <List list={contents}/>
-        </Container>
+                <List list={props.list} />
+            </Container>
+        </div>
     )
 }
+
+const mapStateToProps = state => {
+    console.log(state)
+    return ({
+        list: state.home.list,
+    })
+}
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+    loadlist
+}, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
