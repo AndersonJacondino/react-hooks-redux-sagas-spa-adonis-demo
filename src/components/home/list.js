@@ -11,6 +11,8 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import renderHTML from 'react-render-html';
 import tweetService from '../../service/tweetService';
+import { loadlist } from '../../redux/core/actions/listActions';
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -24,10 +26,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function List(props) {
     const classes = useStyles();
+    const dispatch = useDispatch();
 
-    function deletar (id) {
-        console.log(props)
-        //tweetService.delTweet('/tweets', id)
+    async function deletar (id) {
+        await tweetService.delTweet('/tweets', id);
+        dispatch(loadlist());
     }
 
     return (
