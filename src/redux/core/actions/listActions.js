@@ -4,6 +4,7 @@ export const loadlist = () => ({
     type: types.LOAD_LIST
 })
 
-export const setIsLoading = () => ({
-    type: types.IS_LOADING
+export const setloadlist = (payload) => ({
+    type: types.NEW_SET_LIST,
+    payload: payload,
 })

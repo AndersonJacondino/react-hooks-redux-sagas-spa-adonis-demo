@@ -10,7 +10,7 @@ class Tweet {
             });
     }
 
-    static setTweet(apiEndpoint, payload) {
+    static setTweet({ apiEndpoint, payload }) {
         return base.post(apiEndpoint, JSON.stringify(payload))
             .then((response) => {
                 return response;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { loadlist } from '../../redux/core/actions/listActions';
-import { connect } from 'react-redux';
+import { loadlist, setloadlist } from '../../redux/core/actions/listActions';
+import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from "redux";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -16,29 +16,27 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const Home = (props) => {
+const Home = () => {
     const [values, setEdit] = useState({});
     const classes = useStyles();
+    const dispatch = useDispatch();
+    const list = useSelector(state => state.home.list);
+
+    useEffect(() => {
+        dispatch(loadlist());
+    }, []);
 
     function handleChange(value) {
         setEdit(value);
     }
 
     function publicar() {
-        // const data = { content: values };
-
-        // tweetService.setTweet('/tweets', data)
-        //     .then(() => loadContent())
+        const data = { content: values };
+        dispatch(setloadlist(data));
     }
-
-    useEffect(() => {
-        props.loadlist();
-        console.log(props)
-    }, []);
 
     return (
         <div>
-            {console.log(props.list)}
             <Container component="main">
                 <CssBaseline />
                 <h1>teste</h1>
@@ -47,21 +45,10 @@ const Home = (props) => {
                 <Button className={classes.button} onClick={() => { publicar() }} variant="contained" color="primary">
                     Send
             </Button>
-                <List list={props.list} />
+                <List list={list} />
             </Container>
         </div>
     )
 }
 
-const mapStateToProps = state => {
-    console.log(state)
-    return ({
-        list: state.home.list,
-    })
-}
-
-const mapDispatchToProps = dispatch => bindActionCreators({
-    loadlist
-}, dispatch)
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default Home;

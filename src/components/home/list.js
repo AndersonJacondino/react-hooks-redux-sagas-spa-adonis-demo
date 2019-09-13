@@ -45,11 +45,11 @@ export default function List(props) {
                                     title="Contemplative Reptile"
                                 />
                                 <CardContent>
-                                    <Typography gutterBottom variant="h5" component="h2">
-                                        <div>{renderHTML(item.content)}</div>
+                                    <Typography gutterBottom component="div">
+                                        {renderHTML(item.content)}
                                     </Typography>
-                                    <Typography variant="body2" color="textSecondary" component="p">
-                                        <div>{renderHTML(item.content)}</div>
+                                    <Typography variant="body2" color="textSecondary" component="div">
+                                        {renderHTML(item.content)}
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
