@@ -1,8 +1,8 @@
 import base from '../config/base';
 
 class Tweet {
-    static getTweet(apiEndpoint) {
-        return base.get(apiEndpoint)
+    static getTweet({ apiEndpoint, page }) {
+        return base.get(`${apiEndpoint}?page=${page}`)
             .then((response) => {
                 return response;
             }).catch((err) => {

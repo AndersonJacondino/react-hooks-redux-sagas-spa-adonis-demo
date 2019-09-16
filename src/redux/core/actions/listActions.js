@@ -1,7 +1,8 @@
 import types from './types/listTypes'
 
-export const loadlist = () => ({
-    type: types.LOAD_LIST
+export const loadlist = (payload) => ({
+    type: types.LOAD_LIST,
+    payload: payload,
 })
 
 export const setloadlist = (payload) => ({

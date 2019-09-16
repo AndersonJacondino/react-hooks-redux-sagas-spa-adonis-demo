@@ -2,8 +2,8 @@ import tweetService from '../../service/tweetService'
 import types from '../core/actions/types/listTypes'
 import { put, call, takeLatest, all } from 'redux-saga/effects'
 
-function* loadListSaga() {
-    let jsonResponse = yield call(tweetService.getTweet, '/tweets')
+function* loadListSaga(page) {
+    let jsonResponse = yield call(tweetService.getTweet, { apiEndpoint: '/tweets', page: page.payload })
     yield put({ type: types.SET_LIST, payload: jsonResponse.data })
 }
 

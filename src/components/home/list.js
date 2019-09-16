@@ -60,6 +60,8 @@ fuzzyTextFilterFn.autoRemove = val => !val
 
 function TablePaginationActions(props) {
     const classes = useStyles1();
+    const dispatch = useDispatch();
+    
     const theme = useTheme();
     const { count, page, rowsPerPage, onChangePage } = props;
 
@@ -72,6 +74,7 @@ function TablePaginationActions(props) {
     }
 
     function handleNextButtonClick(event) {
+        dispatch(loadlist(page === 0 ? page + 2 : page + 1))
         onChangePage(event, page + 1);
     }
 
@@ -110,13 +113,13 @@ function TablePaginationActions(props) {
 }
 
 // Our table component
-function TableFilter({ columns, data }) {
+function TableFilter({ columns, data, lastPage, pages, rowsPerPages, total }) {
     const [isValid, setIsValid] = useState({});
     const dispatch = useDispatch();
 
     async function deletar(id) {
         await tweetService.delTweet('/tweets', id);
-        dispatch(loadlist());
+        dispatch(loadlist(1));
     }
 
     const filterTypes = useMemo(
@@ -159,10 +162,10 @@ function TableFilter({ columns, data }) {
 
     // We don't want to render all of the rows for this example, so cap
     // it for this use case
-    const firstPageRows = rows.slice(0, 10)
+    const firstPageRows = rows.slice(0, parseInt(total))
 
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
@@ -221,9 +224,8 @@ function TableFilter({ columns, data }) {
                 <TableFooter>
                     <TableRow>
                         <TablePagination
-                            rowsPerPageOptions={[5, 10, 25]}
-                            colSpan={3}
-                            count={rows.length}
+                            rowsPerPageOptions={[10, 25]}
+                            count={parseInt(total)}
                             rowsPerPage={rowsPerPage}
                             page={page}
                             SelectProps={{
@@ -255,7 +257,7 @@ function filterGreaterThan(rows, id, filterValue) {
 // check, but here, we want to remove the filter if it's not a number
 filterGreaterThan.autoRemove = val => typeof val !== 'number'
 
-function List({ list }) {
+function List({ list, lastPage, page, perPage, total }) {
 
     const columns = useMemo(
         () =>
@@ -281,7 +283,13 @@ function List({ list }) {
     )
 
     return (
-        <TableFilter columns={columns} data={list} />
+        <TableFilter
+            columns={columns}
+            data={list}
+            lastPage={lastPage}
+            pages={page}
+            rowsPerPages={perPage}
+            total={total} />
     )
 }
 
