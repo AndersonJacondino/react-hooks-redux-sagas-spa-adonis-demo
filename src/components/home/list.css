@@ -1,0 +1,11 @@
+th.MuiTableCell-root.MuiTableCell-head svg{
+    margin: 0 0 0 4px;
+}
+
+.tableTop{
+    position: absolute!important;
+    background: #ffffff;
+    padding: 13px;
+    box-shadow: 9px 0 26px -12px;
+    font-weight: 400;
+  }
