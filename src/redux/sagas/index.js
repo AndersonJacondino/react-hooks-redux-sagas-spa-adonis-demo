@@ -1,4 +1,4 @@
-import tweetService from '../../service/tweetService'
+import tweetService from '../../services/tweetService'
 import types from '../core/actions/types/listTypes'
 import { put, call, takeLatest, all } from 'redux-saga/effects'
 

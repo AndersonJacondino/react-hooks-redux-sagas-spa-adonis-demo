@@ -7,7 +7,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import tweetService from '../../service/tweetService';
+import tweetService from '../../services/tweetService';
 import Button from '@material-ui/core/Button';
 import { loadlist } from '../../redux/core/actions/listActions';
 import { useDispatch } from 'react-redux';
@@ -22,6 +22,10 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 import './list.css';
 
 const useStyles1 = makeStyles(theme => ({
@@ -51,6 +55,50 @@ function DefaultColumnFilter({
     )
 }
 
+const state2 = [];
+
+function SelectColumnFilter({
+    column: { setFilter, preFilteredRows, id },
+}) {
+    // Calculate the options for filtering
+    // using the preFilteredRows
+    const options = useMemo(() => {
+        const options = new Set()
+        preFilteredRows.forEach(row => {
+            options.add(row.values[id])
+        })
+        return [...options.values()]
+    }, [id, preFilteredRows])
+
+    const handleChange = (name, i) => event => {
+        let check = event.target.checked;
+
+        if (state2 => state2.name !== name)
+            check ? (state2.push(name)) : state2.splice(i, 1);
+
+        setFilter(state2)
+    };
+
+    // Render a multi-select box
+    return (
+        <div>
+            <FormControl component="fieldset" className="tableTop">
+                <FormGroup>
+                    {options.map((option, i) => {
+                        return (
+                            <FormControlLabel
+                                key={i}
+                                control={<Checkbox onChange={handleChange(option, i)} value={option} />}
+                                label={option}
+                            />
+                        )
+                    })}
+                </FormGroup>
+            </FormControl>
+        </div>
+    )
+}
+
 function fuzzyTextFilterFn(rows, id, filterValue) {
     return matchSorter(rows, filterValue, { keys: [row => row.values[id]] })
 }
@@ -61,7 +109,7 @@ fuzzyTextFilterFn.autoRemove = val => !val
 function TablePaginationActions(props) {
     const classes = useStyles1();
     const dispatch = useDispatch();
-    
+
     const theme = useTheme();
     const { count, page, rowsPerPage, onChangePage } = props;
 
@@ -269,6 +317,8 @@ function List({ list, lastPage, page, perPage, total }) {
                 {
                     Header: 'Content',
                     accessor: 'content',
+                    Filter: SelectColumnFilter,
+                    filter: 'includes',
                 },
                 {
                     Header: 'Date Create',
