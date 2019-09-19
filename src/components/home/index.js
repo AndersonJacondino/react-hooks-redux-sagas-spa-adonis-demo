@@ -10,6 +10,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Fab from '@material-ui/core/Fab';
 import ChatIcon from '@material-ui/icons/Chat';
+import Paper from '@material-ui/core/Paper';
+import InputBase from '@material-ui/core/InputBase';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import SendIcon from '@material-ui/icons/Send';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Nav from '../nav';
 import List from './list';
 
@@ -29,6 +35,23 @@ const useStyles = makeStyles(theme => ({
     },
     extendedIcon: {
         marginRight: theme.spacing(1),
+    },
+    root: {
+        padding: '2px 4px',
+        display: 'flex',
+        alignItems: 'center',
+        width: '100%',
+    },
+    input: {
+        marginLeft: theme.spacing(1),
+        flex: 1,
+    },
+    iconButton: {
+        padding: 10,
+    },
+    divider: {
+        height: 28,
+        margin: 4,
     },
 }));
 const Home = () => {
@@ -68,7 +91,52 @@ const Home = () => {
                             perPage={tweets.perPage}
                             total={tweets.total} /> : <CircularProgress />}
                 </div>
-                <Fab color="primary" aria-label="add" className={[classes.fab, 'pulse']}>
+                <div className="chat">
+                    <div className="header-msg">
+                        <AccountCircleIcon color="primary" style={{ fontSize: 40 }}/>
+                        <h4>Teste de WebSocket</h4> 
+                    </div>
+                    <div className="body-msg">
+                        <div className="mine messages">
+                            <div className="message last">
+                                Dude
+                        </div>
+                        </div>
+                        <div className="yours messages">
+                            <div className="message">
+                                Hey!
+                         </div>
+                            <div className="message">
+                                You there?
+                        </div>
+                            <div className="message last">
+                                Hello, how's it going?
+                    </div>
+                        </div>
+                        <div className="mine messages">
+                            <div className="message">
+                                Great thanks!
+                        </div>
+                            <div className="message last">
+                                How about you?
+                        </div>
+                        </div>
+                    </div>
+                    <div className="footer-msg">
+                        <Paper className={classes.root}>
+                            <InputBase
+                                className={classes.input}
+                                placeholder="Send Message"
+                                inputProps={{ 'aria-label': 'search google maps' }}
+                            />
+                            <Divider className={classes.divider} orientation="vertical" />
+                            <IconButton color="primary" className={classes.iconButton} aria-label="directions">
+                                <SendIcon />
+                            </IconButton>
+                        </Paper>
+                    </div>
+                </div>
+                <Fab color="primary" aria-label="add" className={classes.fab + ' pulse'}>
                     <ChatIcon />
                 </Fab>
             </Container>
